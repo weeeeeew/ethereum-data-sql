@@ -87,13 +87,7 @@ instance Binary Address where
 
 
 prvKey2Address::PrvKey->Address
-prvKey2Address prvKey =
-  Address $ fromInteger $ byteString2Integer $ C.hash 256 $ BL.toStrict $ encode x `BL.append` encode y
-  --B16.encode $ hash 256 $ BL.toStrict $ encode x `BL.append` encode y
-  where
-    PubKey point = derivePubKey prvKey
-    x = fromMaybe (error "getX failed in prvKey2Address") $ getX point
-    y = fromMaybe (error "getY failed in prvKey2Address") $ getY point
+prvKey2Address = pubKey2Address . derivePubKey
 
 pubKey2Address::PubKey->Address
 pubKey2Address (PubKey point) =
